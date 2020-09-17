@@ -16,6 +16,11 @@ class LoginForm(FlaskForm):
 def form():
     form = LoginForm()
     if form.validate_on_submit():
+        datafile=open(r"C:\Users\USER\PycharmProjects\Web_Forms_VBB\trialsapp\data_files\data.txt","w+")
+        datafile.write(form.username.data)
+        datafile.write(form.password.data)
+        datafile.write(form.function.data)
+        datafile.close()
         return render_template('try_submit.html', \
                                username=form.username.data, password=form.password.data, \
                                function=form.function.data)
