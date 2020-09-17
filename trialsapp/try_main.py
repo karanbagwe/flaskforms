@@ -9,7 +9,7 @@ app.config['SECRET_KEY'] = 'Thisisasecret!'
 class LoginForm(FlaskForm):
     username = StringField('username')
     password = PasswordField('password')
-    function = RadioField('function', choices=[('ADD','insert'),('UPDATE','change'),('DELETE','remove')])
+    function = RadioField('function', choices=[('insert','ADD'),('update','CHANGE'),('delete','REMOVE')])
 
 
 @app.route("/", methods=['GET','POST'])
@@ -18,9 +18,7 @@ def form():
     if form.validate_on_submit():
         return render_template('try_submit.html', \
                                username=form.username.data, password=form.password.data, \
-                               addfunc=form.addfunc.data, \
-                               changefunc=form.changefunc.data,\
-                               removefunc=form.removefunc.data)
+                               function=form.function.data)
 #       return '<h1>The username is {}.<br><h1>The password is {}.<br><h5> SUBMITTED !!'.format(form.username.data, form.password.data)
     return render_template('try_form.html', form=form)
 
