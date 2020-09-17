@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>The First Form</title>
+</head>
+<body>
+<h1> Form starts here </h1>
+
+<form method="POST" action="{{url_for('form')}}">
+    {{form.csrf_token}}
+    {{form.username.label}}
+    {{form.username}}<br>
+    {{form.password.label}}
+    {{form.password}}<br>
+    <input type="submit" value="SUBMIT">
+</form>
+
+</body>
+</html>
