@@ -9,12 +9,14 @@
 
 <form method="POST" action="{{url_for('form')}}">
     {{form.csrf_token}}
-    {{form.username.label}}
-    {{form.username}}<br>
-    {{form.password.label}}
-    {{form.password}}<br>
-    {{form.function.label}}
-    {{form.function}}<br>
+    {{form.fname.label}}
+    {{form.fname}}<br>
+    {{form.place.label}}
+    {{form.place}}<br>
+    {{form.animal.label}}
+    {{form.animal}}<br>
+    {{form.movie.label}}
+    {{form.movie}}<br>
     <input type="submit" value="SUBMIT">
 </form>
 
