@@ -7,8 +7,6 @@ import pandas as pd
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'Thisisasecret!'
 
-
-
 class LoginForm(FlaskForm):
 #    username = StringField('username')
 #    password = PasswordField('password')
@@ -30,7 +28,8 @@ def form():
                         "Movie":format(form.movie.data)},
                        ignore_index=True)
         print(df)
-        df.to_csv(r"C:\Users\USER\PycharmProjects\Web_Forms_VBB\trialsapp\data_files\data.csv",mode='a',header=False)
+        df.to_csv(r"C:\Users\USER\PycharmProjects\Web_Forms_VBB\trialsapp\data_files\data.csv", \
+                  mode='a',header=False,index=False)
 #        datafile=open(r"C:\Users\USER\PycharmProjects\Web_Forms_VBB\trialsapp\data_files\data.xls","w+")
 #        datafile.write(form.username.data)
 #        datafile.write(form.password.data)
