@@ -1,6 +1,6 @@
 from flask import Flask, render_template
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, RadioField
+from wtforms import StringField, PasswordField, RadioField, DateField
 import pandas as pd
 
 
@@ -15,19 +15,20 @@ class LoginForm(FlaskForm):
     place = StringField('Enter Place: ')
     animal = RadioField('Enter Animal: ', choices=[('Lion','Lion'),('Eagle','Eagle'),('Shark','Shark')])
     movie = StringField('Enter Movie: ')
+    bday = DateField('Enter DOB: ',format='%Y-%m-%d')
 
 @app.route("/", methods=['GET','POST'])
 def form():
     form = LoginForm()
     if form.validate_on_submit():
         if 'df' not in globals():
-            df = pd.DataFrame(columns=['Name', 'Place', 'Animal', 'Movie'])
+            df = pd.DataFrame(columns=['Name', 'Place', 'Animal', 'Movie','DOB'])
         df = df.append({"Name":format(form.fname.data),
                         "Place":format(form.place.data),
                         "Animal":format(form.animal.data),
-                        "Movie":format(form.movie.data)},
+                        "Movie":format(form.movie.data),
+                        "DOB":format(form.bday.data)},
                        ignore_index=True)
-        print(df)
         df.to_csv(r"C:\Users\USER\PycharmProjects\Web_Forms_VBB\trialsapp\data_files\data.csv", \
                   mode='a',header=False,index=False)
 #        datafile=open(r"C:\Users\USER\PycharmProjects\Web_Forms_VBB\trialsapp\data_files\data.xls","w+")
