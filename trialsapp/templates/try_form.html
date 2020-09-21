@@ -11,14 +11,29 @@
     {{form.csrf_token}}
     {{form.fname.label}}
     {{form.fname}}<br>
+    {% for error in form.fname.errors %}
+        <li style="color:red;">{{error}}</li>
+    {% endfor %}
     {{form.place.label}}
     {{form.place}}<br>
+    {% for error in form.place.errors %}
+        <li style="color:red;">{{error}}</li>
+    {% endfor %}
     {{form.animal.label}}
     {{form.animal}}<br>
+    {% for error in form.animal.errors %}
+        <li style="color:red;">{{error}}</li>
+    {% endfor %}
     {{form.movie.label}}
     {{form.movie}}<br>
+    {% for error in form.movie.errors %}
+        <li style="color:red;">{{error}}</li>
+    {% endfor %}
     {{form.bday.label}}
     {{form.bday}}<br>
+    {% for error in form.bday.errors %}
+        <li style="color:red;">{{error}}</li>
+    {% endfor %}
     <input type="submit" value="SUBMIT">
 </form>
 

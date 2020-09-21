@@ -1,6 +1,7 @@
 from flask import Flask, render_template, Markup
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, RadioField, DateField, SubmitField
+from wtforms.validators import InputRequired,Length
 import pandas as pd
 
 
@@ -14,11 +15,13 @@ class ChangeForm(FlaskForm):
 #    change_rows=SubmitField('Change Now')
 
 class LoginForm(FlaskForm):
-    fname = StringField('Enter Name: ')
-    place = StringField('Enter Place: ')
-    animal = RadioField('Enter Animal: ', choices=[('Lion','Lion'),('Eagle','Eagle'),('Shark','Shark')])
-    movie = StringField('Enter Movie: ')
-    bday = DateField('Enter DOB: ',format='%Y-%m-%d')
+    fname = StringField('Enter Name: ', validators=[InputRequired(), \
+                        Length(min=1,max=10,message='Must be atleast one character')])
+    place = StringField('Enter Place: ',validators=[InputRequired()])
+    animal = RadioField('Enter Animal: ', choices=[('Lion','Lion'),('Eagle','Eagle'),('Shark','Shark')], \
+                        validators=[InputRequired("Select atleast one Animal !")])
+    movie = StringField('Enter Movie: ', validators=[InputRequired()])
+    bday = DateField('Enter DOB: ',format='%Y-%m-%d',validators=[InputRequired()])
 
 @app.route("/", methods=['GET','POST'])
 def form():
