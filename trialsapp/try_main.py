@@ -1,16 +1,19 @@
 from flask import Flask, render_template, Markup
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, RadioField, DateField
+from wtforms import StringField, PasswordField, RadioField, DateField, SubmitField
 import pandas as pd
 
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'Thisisasecret!'
+class ChangeForm(FlaskForm):
+    df = pd.read_csv(r"C:\Users\USER\PycharmProjects\Web_Forms_VBB\trialsapp\data_files\data.csv", \
+                     sep=',', header=None)
+    dfedit = df.style.format('<input name="df" value="{}" />').render()
+    dfedithtml = Markup(dfedit)
+#    change_rows=SubmitField('Change Now')
 
 class LoginForm(FlaskForm):
-#    username = StringField('username')
-#    password = PasswordField('password')
-#    function = RadioField('function', choices=[('insert','ADD'),('update','CHANGE'),('delete','REMOVE')])
     fname = StringField('Enter Name: ')
     place = StringField('Enter Place: ')
     animal = RadioField('Enter Animal: ', choices=[('Lion','Lion'),('Eagle','Eagle'),('Shark','Shark')])
@@ -31,22 +34,30 @@ def form():
                        ignore_index=True)
         df.to_csv(r"C:\Users\USER\PycharmProjects\Web_Forms_VBB\trialsapp\data_files\data.csv", \
                   mode='a',header=False,index=False)
-#        datafile=open(r"C:\Users\USER\PycharmProjects\Web_Forms_VBB\trialsapp\data_files\data.xls","w+")
-#        datafile.write(form.username.data)
-#        datafile.write(form.password.data)
-#        datafile.write(form.function.data)
-#        datafile.close()
         dfhtml=Markup(df.to_html())
         dfallrows=pd.read_csv(r"C:\Users\USER\PycharmProjects\Web_Forms_VBB\trialsapp\data_files\data.csv", \
                               sep=',', header=None)
         dfallhtml = Markup(dfallrows.to_html())
         return render_template('try_submit.html', \
                                dfhtml=dfhtml,dfall=dfallhtml)
-#                               fname=form.fname.data, place=form.place.data, \
-#                               animal=form.animal.data,movie=form.movie.data)
-#       return '<h1>The username is {}.<br><h1>The password is {}.<br><h5> SUBMITTED !!'.format(form.username.data, form.password.data)
     return render_template('try_form.html', form=form)
 
+@app.route("/change", methods=['GET','POST'])
+def chngform():
+    chgform = ChangeForm()
+    if chgform.validate_on_submit():
+#        if chgform.change_rows.data:
+            htmltodf=pd.read_html(chgform.dfedithtml)[0]
+            print(chgform.dfedithtml)
+            print(htmltodf)
+#            chgform.htmltodf.to_csv(r"C:\Users\USER\PycharmProjects\Web_Forms_VBB\trialsapp\data_files\data.csv", \
+#                          mode='w', header=False, index=False)
+            dfallrows = pd.read_csv(r"C:\Users\USER\PycharmProjects\Web_Forms_VBB\trialsapp\data_files\data.csv", \
+                                sep=',', header=None)
+            dfallhtml = Markup(dfallrows.to_html())
+            return render_template('try_submit.html', \
+                               dfhtml='', dfall=dfallhtml)
+    return render_template('try_change.html', chgform=chgform)
 
 
 if __name__ == '__main__':

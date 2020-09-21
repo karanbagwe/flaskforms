@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Change Page</title>
+</head>
+<body>
+<form method="POST" action="{{url_for('chngform')}}">
+    {{chgform.csrf_token}} <br>
+    {{chgform.dfedithtml}}
+<!--    {{chgform.change_rows}}}}-->
+    <input type="submit" value="SUBMIT">
+</form>
+</body>
+</html>
