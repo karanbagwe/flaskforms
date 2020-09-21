@@ -40,7 +40,6 @@ def form():
         dfallrows=pd.read_csv(r"C:\Users\USER\PycharmProjects\Web_Forms_VBB\trialsapp\data_files\data.csv", \
                               sep=',', header=None)
         dfallhtml = Markup(dfallrows.to_html())
-        print(dfallrows)
         return render_template('try_submit.html', \
                                dfhtml=dfhtml,dfall=dfallhtml)
 #                               fname=form.fname.data, place=form.place.data, \
