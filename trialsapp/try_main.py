@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, Markup
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, RadioField, DateField
 import pandas as pd
@@ -36,12 +36,18 @@ def form():
 #        datafile.write(form.password.data)
 #        datafile.write(form.function.data)
 #        datafile.close()
+        dfhtml=Markup(df.to_html())
+        dfallrows=pd.read_csv(r"C:\Users\USER\PycharmProjects\Web_Forms_VBB\trialsapp\data_files\data.csv", \
+                              sep=',', header=None)
+        dfallhtml = Markup(dfallrows.to_html())
+        print(dfallrows)
         return render_template('try_submit.html', \
-                               df=df)
+                               dfhtml=dfhtml,dfall=dfallhtml)
 #                               fname=form.fname.data, place=form.place.data, \
 #                               animal=form.animal.data,movie=form.movie.data)
 #       return '<h1>The username is {}.<br><h1>The password is {}.<br><h5> SUBMITTED !!'.format(form.username.data, form.password.data)
     return render_template('try_form.html', form=form)
+
 
 
 if __name__ == '__main__':
