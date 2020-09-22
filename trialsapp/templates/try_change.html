@@ -3,13 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <title>Change Page</title>
+    <script src="{{url_for('static', filename='js/jquery-3.5.1.js')}}"></script>
 </head>
 <body>
 <form method="POST" action="{{url_for('chngform')}}">
     {{chgform.csrf_token}} <br>
     {{chgform.dfedithtml}}
-<!--    {{chgform.change_rows}}}}-->
     <input type="submit" value="SUBMIT">
+    <input type="button" id="button1" value="Test jQuery">
 </form>
+<script type="text/javascript">
+    $(function(){
+        $('#button1').click(function(){
+            alert('jQuery Success !')
+        });
+    });
+</script>
 </body>
 </html>

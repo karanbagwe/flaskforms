@@ -3,7 +3,9 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, RadioField, DateField, SubmitField
 from wtforms.validators import InputRequired,Length
 import pandas as pd
-
+import requests
+import urllib.request
+from bs4 import BeautifulSoup
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'Thisisasecret!'
@@ -23,7 +25,7 @@ class LoginForm(FlaskForm):
     movie = StringField('Enter Movie: ', validators=[InputRequired()])
     bday = DateField('Enter DOB: ',format='%Y-%m-%d',validators=[InputRequired()])
 
-@app.route("/", methods=['GET','POST'])
+@app.route("/add", methods=['GET','POST'])
 def form():
     form = LoginForm()
     if form.validate_on_submit():
@@ -45,12 +47,11 @@ def form():
                                dfhtml=dfhtml,dfall=dfallhtml)
     return render_template('try_form.html', form=form)
 
-@app.route("/change", methods=['GET','POST'])
+@app.route("/", methods=['GET','POST'])
 def chngform():
     chgform = ChangeForm()
     if chgform.validate_on_submit():
-#        if chgform.change_rows.data:
-            htmltodf=pd.read_html(chgform.dfedithtml)[0]
+            htmltodf=pd.read_html('try_change.html')[0]
             print(chgform.dfedithtml)
             print(htmltodf)
 #            chgform.htmltodf.to_csv(r"C:\Users\USER\PycharmProjects\Web_Forms_VBB\trialsapp\data_files\data.csv", \
