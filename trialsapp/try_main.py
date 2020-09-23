@@ -1,4 +1,4 @@
-from flask import Flask, render_template, Markup
+from flask import Flask, render_template, Markup,request
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, RadioField, DateField, SubmitField
 from wtforms.validators import InputRequired,Length
@@ -10,10 +10,8 @@ from bs4 import BeautifulSoup
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'Thisisasecret!'
 class ChangeForm(FlaskForm):
-    df = pd.read_csv(r"C:\Users\USER\PycharmProjects\Web_Forms_VBB\trialsapp\data_files\data.csv", \
-                     sep=',', header=None)
-    dfedit = df.style.format('<input name="df" value="{}" />').render()
-    dfedithtml = Markup(dfedit)
+    submitbtn = SubmitField('Change Now')
+#    dfedithtml = Markup(dfedit)
 #    change_rows=SubmitField('Change Now')
 
 class LoginForm(FlaskForm):
@@ -48,20 +46,27 @@ def form():
     return render_template('try_form.html', form=form)
 
 @app.route("/", methods=['GET','POST'])
+# def html_input(c):
+#     return '<input name="{}" value="{{}}" />'.format(c)
 def chngform():
     chgform = ChangeForm()
+    df = pd.read_csv(r"C:\Users\USER\PycharmProjects\Web_Forms_VBB\trialsapp\data_files\data.csv", \
+                     sep=',', header=None)
+    dfhtml = Markup(df.to_html())
+    # dfhtml=df.style.format({c:html_input(c) for c in df.columns}).render()
+    print(dfhtml)
     if chgform.validate_on_submit():
-            htmltodf=pd.read_html('try_change.html')[0]
-            print(chgform.dfedithtml)
+
+            htmltodf=pd.read_html(dfhtml)
             print(htmltodf)
 #            chgform.htmltodf.to_csv(r"C:\Users\USER\PycharmProjects\Web_Forms_VBB\trialsapp\data_files\data.csv", \
 #                          mode='w', header=False, index=False)
-            dfallrows = pd.read_csv(r"C:\Users\USER\PycharmProjects\Web_Forms_VBB\trialsapp\data_files\data.csv", \
-                                sep=',', header=None)
-            dfallhtml = Markup(dfallrows.to_html())
+#             dfallrows = pd.read_csv(r"C:\Users\USER\PycharmProjects\Web_Forms_VBB\trialsapp\data_files\data.csv", \
+#                                 sep=',', header=None)
+#             dfallhtml = Markup(dfallrows.to_html())
             return render_template('try_submit.html', \
-                               dfhtml='', dfall=dfallhtml)
-    return render_template('try_change.html', chgform=chgform)
+                               dfhtml='', dfall='')
+    return render_template('try_change.html', chgform=chgform, dfhtml=dfhtml)
 
 
 if __name__ == '__main__':
